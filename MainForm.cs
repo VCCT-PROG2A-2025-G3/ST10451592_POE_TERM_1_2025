@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Media;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace CybersecurityApp
@@ -12,6 +15,7 @@ namespace CybersecurityApp
             InitializeComponent();
             _viewModel = new ChatbotViewModel();
             tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
+            PlayGreeting();
             UpdateView();
         }
 
@@ -30,6 +34,27 @@ namespace CybersecurityApp
             tabQuiz.Controls.Add(new QuizControl(_viewModel.QuizManager));
             tabLog.Controls.Clear();
             tabLog.Controls.Add(new LogControl(_viewModel.ActivityLog));
+        }
+
+        private void PlayGreeting()
+        {
+            try
+            {
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("CybersecurityApp.Greeting.resources"))
+                {
+                    if (stream != null)
+                    {
+                        using (var player = new SoundPlayer(stream))
+                        {
+                            player.Play(); // Plays synchronously; use PlaySync() for blocking playback
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to play greeting: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
