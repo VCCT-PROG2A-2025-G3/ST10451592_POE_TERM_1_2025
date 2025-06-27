@@ -1,8 +1,7 @@
-﻿using CybersecurityApp;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
-namespace CyberSecurityApp
+namespace CybersecurityApp
 {
     static class Program
     {

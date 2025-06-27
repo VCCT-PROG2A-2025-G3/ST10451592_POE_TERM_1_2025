@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace CybersecurityApp
 {
@@ -6,20 +7,31 @@ namespace CybersecurityApp
     {
         private readonly TaskViewModel _viewModel;
 
-        public TaskControl()
+        public TaskControl(TaskViewModel viewModel)
         {
             InitializeComponent();
-            _viewModel = new TaskViewModel();
+            _viewModel = viewModel;
             BindControls();
         }
 
         private void BindControls()
         {
-            listTasks.DataSource = _viewModel.Tasks;
-            listTasks.DisplayMember = "Title";
-            btnAdd.Click += (s, e) => _viewModel.AddTask(null);
-            btnComplete.Click += (s, e) => _viewModel.CompleteTask(null);
-            btnDelete.Click += (s, e) => _viewModel.DeleteTask(null);
+            taskListBox.DataSource = _viewModel.Tasks;
+            taskListBox.DisplayMember = "Title";
+            addTaskButton.Click += (s, e) => ShowAddTaskDialog();
+            completeTaskButton.Click += (s, e) => _viewModel.CompleteTask(null);
+            deleteTaskButton.Click += (s, e) => _viewModel.DeleteTask(null);
+        }
+
+        private void ShowAddTaskDialog()
+        {
+            using (var form = new AddTaskForm(_viewModel))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    _viewModel.AddTask(null); // Trigger update (dialog handles task creation)
+                }
+            }
         }
     }
 }

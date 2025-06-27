@@ -6,14 +6,14 @@ namespace CybersecurityApp
 {
     public class RespondToUser
     {
-        private readonly UserMemory _memory;
+        private readonly object _memory; // Placeholder for UserMemory
         private readonly Random _random;
         private readonly Dictionary<string, List<string>> _keywordResponses;
         private readonly Dictionary<string, Action<string>> _intents;
         private readonly TaskViewModel _taskViewModel;
         private readonly QuizViewModel _quizViewModel;
 
-        public RespondToUser(UserMemory memory, TaskViewModel taskViewModel, QuizViewModel quizViewModel)
+        public RespondToUser(object memory, TaskViewModel taskViewModel, QuizViewModel quizViewModel)
         {
             _memory = memory;
             _random = new Random();
@@ -35,7 +35,7 @@ namespace CybersecurityApp
         public string ProcessInput(string input)
         {
             input = input?.Trim().ToLower() ?? string.Empty;
-            _memory.AddToHistory(input);
+            // _memory.AddToHistory(input); // Placeholder, requires UserMemory implementation
 
             foreach (var intent in _intents)
             {

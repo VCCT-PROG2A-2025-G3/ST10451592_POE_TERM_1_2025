@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace CybersecurityApp
 {
@@ -6,18 +7,18 @@ namespace CybersecurityApp
     {
         private readonly ChatViewModel _viewModel;
 
-        public ChatControl()
+        public ChatControl(ChatViewModel viewModel)
         {
             InitializeComponent();
-            _viewModel = new ChatViewModel();
+            _viewModel = viewModel;
             BindControls();
         }
 
         private void BindControls()
         {
-            txtResponse.DataBindings.Add("Text", _viewModel, "Response", false, DataSourceUpdateMode.OnPropertyChanged);
-            txtInput.DataBindings.Add("Text", _viewModel, "UserInput", true, DataSourceUpdateMode.OnPropertyChanged);
-            btnSend.Click += (s, e) => _viewModel.Send(null);
+            responseTextBox.DataBindings.Add("Text", _viewModel, "Response", false, DataSourceUpdateMode.OnPropertyChanged);
+            inputTextBox.DataBindings.Add("Text", _viewModel, "UserInput", true, DataSourceUpdateMode.OnPropertyChanged);
+            sendButton.Click += (s, e) => _viewModel.Send(null);
         }
     }
 }

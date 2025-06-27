@@ -6,17 +6,18 @@ namespace CybersecurityApp
     {
         private readonly ActivityLogViewModel _viewModel;
 
-        public LogControl()
+        public LogControl(ActivityLogViewModel viewModel)
         {
             InitializeComponent();
-            _viewModel = new ActivityLogViewModel();
+            _viewModel = viewModel;
             BindControls();
         }
 
         private void BindControls()
         {
-            listLog.DataSource = _viewModel.LogEntries;
-            listLog.DisplayMember = "Description";
+            logListBox.DataSource = _viewModel.LogEntries;
+            logListBox.DisplayMember = "Description";
+            showMoreButton.Click += (s, e) => _viewModel.ShowMore();
         }
     }
 }

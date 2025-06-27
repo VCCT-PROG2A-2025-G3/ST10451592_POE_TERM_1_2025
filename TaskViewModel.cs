@@ -2,68 +2,44 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 
 namespace CybersecurityApp
 {
     public class TaskViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<Task> _tasks = new ObservableCollection<Task>();
-        public Task _selectedTask;
+        public ObservableCollection<Task> Tasks { get; } = new ObservableCollection<Task>();
 
-        public ObservableCollection<Task> Tasks
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            get => _tasks;
-            set { _tasks = value; OnPropertyChanged(); }
-        }
-
-        public Task SelectedTask
-        {
-            get => _selectedTask;
-            set { _selectedTask = value; OnPropertyChanged(); }
-        }
-
-        public ICommand AddTaskCommand { get; }
-        public ICommand CompleteTaskCommand { get; }
-        public ICommand DeleteTaskCommand { get; }
-
-        public TaskViewModel()
-        {
-            AddTaskCommand = new RelayCommand(AddTask);
-            CompleteTaskCommand = new RelayCommand(CompleteTask, CanCompleteTask);
-            DeleteTaskCommand = new RelayCommand(DeleteTask, CanDeleteTask);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void AddTask(object parameter)
         {
-            var newTask = new Task { Title = "New Task", Description = "Description", Reminder = DateTime.Now.AddDays(1) };
-            Tasks.Add(newTask);
+            if (parameter is Task task && !string.IsNullOrWhiteSpace(task.Title))
+            {
+                Tasks.Add(task);
+                OnPropertyChanged(nameof(Tasks));
+            }
         }
 
-        public bool CanCompleteTask(object parameter) => SelectedTask != null && !SelectedTask.IsCompleted;
         public void CompleteTask(object parameter)
         {
-            if (SelectedTask != null)
+            if (Tasks.Count > 0)
             {
-                SelectedTask.IsCompleted = true;
-                OnPropertyChanged(nameof(SelectedTask));
+                Tasks[0].IsCompleted = true;
+                OnPropertyChanged(nameof(Tasks));
             }
         }
 
-        public bool CanDeleteTask(object parameter) => SelectedTask != null;
         public void DeleteTask(object parameter)
         {
-            if (SelectedTask != null)
+            if (Tasks.Count > 0)
             {
-                Tasks.Remove(SelectedTask);
-                SelectedTask = null;
+                Tasks.RemoveAt(0);
+                OnPropertyChanged(nameof(Tasks));
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

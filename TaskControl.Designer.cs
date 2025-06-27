@@ -2,15 +2,13 @@
 {
     partial class TaskControl
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        private ListBox taskListBox;
+        private Button addTaskButton;
+        private Button completeTaskButton;
+        private Button deleteTaskButton;
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,89 +18,57 @@
             base.Dispose(disposing);
         }
 
-        #region Component Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            this.listTasks = new System.Windows.Forms.ListBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnComplete = new System.Windows.Forms.Button();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.panel1.SuspendLayout();
+            this.taskListBox = new System.Windows.Forms.ListBox();
+            this.addTaskButton = new System.Windows.Forms.Button();
+            this.completeTaskButton = new System.Windows.Forms.Button();
+            this.deleteTaskButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // listTasks
+            // taskListBox
             // 
-            this.listTasks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listTasks.FormattingEnabled = true;
-            this.listTasks.Location = new System.Drawing.Point(3, 3);
-            this.listTasks.Name = "listTasks";
-            this.listTasks.Size = new System.Drawing.Size(762, 495);
-            this.listTasks.TabIndex = 0;
+            this.taskListBox.Location = new System.Drawing.Point(3, 3);
+            this.taskListBox.Name = "taskListBox";
+            this.taskListBox.Size = new System.Drawing.Size(762, 495);
+            this.taskListBox.TabIndex = 0;
             // 
-            // panel1
+            // addTaskButton
             // 
-            this.panel1.Controls.Add(this.btnDelete);
-            this.panel1.Controls.Add(this.btnComplete);
-            this.panel1.Controls.Add(this.btnAdd);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 501);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(768, 47);
-            this.panel1.TabIndex = 1;
+            this.addTaskButton.Location = new System.Drawing.Point(3, 504);
+            this.addTaskButton.Name = "addTaskButton";
+            this.addTaskButton.Size = new System.Drawing.Size(75, 23);
+            this.addTaskButton.TabIndex = 1;
+            this.addTaskButton.Text = "Add Task";
             // 
-            // btnDelete
+            // completeTaskButton
             // 
-            this.btnDelete.Location = new System.Drawing.Point(683, 13);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 2;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
+            this.completeTaskButton.Location = new System.Drawing.Point(84, 504);
+            this.completeTaskButton.Name = "completeTaskButton";
+            this.completeTaskButton.Size = new System.Drawing.Size(75, 23);
+            this.completeTaskButton.TabIndex = 2;
+            this.completeTaskButton.Text = "Complete";
             // 
-            // btnComplete
+            // deleteTaskButton
             // 
-            this.btnComplete.Location = new System.Drawing.Point(602, 13);
-            this.btnComplete.Name = "btnComplete";
-            this.btnComplete.Size = new System.Drawing.Size(75, 23);
-            this.btnComplete.TabIndex = 1;
-            this.btnComplete.Text = "Complete";
-            this.btnComplete.UseVisualStyleBackColor = true;
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.Location = new System.Drawing.Point(521, 13);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
-            this.btnAdd.TabIndex = 0;
-            this.btnAdd.Text = "Add";
-            this.btnAdd.UseVisualStyleBackColor = true;
+            this.deleteTaskButton.Location = new System.Drawing.Point(165, 504);
+            this.deleteTaskButton.Name = "deleteTaskButton";
+            this.deleteTaskButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteTaskButton.TabIndex = 3;
+            this.deleteTaskButton.Text = "Delete";
             // 
             // TaskControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.listTasks);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.deleteTaskButton);
+            this.Controls.Add(this.completeTaskButton);
+            this.Controls.Add(this.addTaskButton);
+            this.Controls.Add(this.taskListBox);
             this.Name = "TaskControl";
             this.Size = new System.Drawing.Size(768, 548);
-            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
         }
-
-        #endregion
-
-        private ListBox listTasks;
-        private Panel panel1;
-        private Button btnDelete;
-        private Button btnComplete;
-        private Button btnAdd;
     }
 }

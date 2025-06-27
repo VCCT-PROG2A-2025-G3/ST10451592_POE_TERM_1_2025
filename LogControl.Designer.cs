@@ -2,15 +2,11 @@
 {
     partial class LogControl
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        private ListBox logListBox;
+        private Button showMoreButton;
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,40 +16,36 @@
             base.Dispose(disposing);
         }
 
-        #region Component Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            this.listLog = new System.Windows.Forms.ListBox();
+            this.logListBox = new System.Windows.Forms.ListBox();
+            this.showMoreButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // listLog
+            // logListBox
             // 
-            this.listLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listLog.FormattingEnabled = true;
-            this.listLog.Location = new System.Drawing.Point(3, 3);
-            this.listLog.Name = "listLog";
-            this.listLog.Size = new System.Drawing.Size(762, 542);
-            this.listLog.TabIndex = 0;
+            this.logListBox.Location = new System.Drawing.Point(3, 3);
+            this.logListBox.Name = "logListBox";
+            this.logListBox.Size = new System.Drawing.Size(762, 495);
+            this.logListBox.TabIndex = 0;
+            // 
+            // showMoreButton
+            // 
+            this.showMoreButton.Location = new System.Drawing.Point(3, 504);
+            this.showMoreButton.Name = "showMoreButton";
+            this.showMoreButton.Size = new System.Drawing.Size(75, 23);
+            this.showMoreButton.TabIndex = 1;
+            this.showMoreButton.Text = "Show More";
             // 
             // LogControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.listLog);
+            this.Controls.Add(this.showMoreButton);
+            this.Controls.Add(this.logListBox);
             this.Name = "LogControl";
             this.Size = new System.Drawing.Size(768, 548);
             this.ResumeLayout(false);
         }
-
-        #endregion
-
-        private ListBox listLog;
     }
 }

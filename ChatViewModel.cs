@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 
 namespace CybersecurityApp
 {
@@ -8,8 +7,6 @@ namespace CybersecurityApp
     {
         private string _userInput;
         private string _response;
-        private readonly RespondToUser _responder;
-        private readonly UserMemory _memory;
 
         public string UserInput
         {
@@ -23,26 +20,27 @@ namespace CybersecurityApp
             set { _response = value; OnPropertyChanged(); }
         }
 
-        public ICommand SendCommand { get; }
-
-        public ChatViewModel()
-        {
-            _memory = new UserMemory();
-            _responder = new RespondToUser(_memory, new TaskViewModel(), new QuizViewModel());
-            SendCommand = new RelayCommand(Send);
-        }
-
         public void Send(object parameter)
         {
-            if (!string.IsNullOrWhiteSpace(UserInput))
+            if (string.IsNullOrWhiteSpace(UserInput)) return;
+
+            string[] keywords = { "task", "quiz", "chat", "log", "phishing", "encryption" };
+            string detectedKeywords = string.Join(", ", keywords.Where(k => UserInput.ToLower().Contains(k)));
+
+            if (!string.IsNullOrEmpty(detectedKeywords))
             {
-                Response = _responder.ProcessInput(UserInput);
-                UserInput = string.Empty;
+                Response = $"Detected keywords: {detectedKeywords}. Processing your request...";
             }
+            else
+            {
+                Response = "No keywords detected. Try mentioning 'task', 'quiz', 'chat', 'log', or cybersecurity terms like 'phishing' or 'encryption'.";
+            }
+
+            UserInput = "";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-     public void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
