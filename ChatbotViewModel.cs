@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using CybersecurityChatbot;
 
 namespace CybersecurityApp
 {
@@ -9,27 +8,17 @@ namespace CybersecurityApp
         public TaskManager TaskManager { get; } = new TaskManager();
         public QuizManager QuizManager { get; } = new QuizManager();
         public ActivityLog ActivityLog { get; } = new ActivityLog();
+        private readonly StartChat _chatSession;
 
-        private Dictionary<string, List<string>> _responses = new Dictionary<string, List<string>>
+        public ChatbotViewModel()
         {
-            { "password", new List<string> { "Use strong, unique passwords for each account.", "Avoid reusing passwords across sites." } },
-            { "phishing", new List<string> { "Don’t click suspicious links in emails.", "Verify sender details before responding." } },
-            { "privacy", new List<string> { "Review your account privacy settings regularly.", "Limit shared personal information online." } }
-        };
+            _chatSession = new StartChat();
+        }
 
         public string ProcessInput(string input)
         {
             ActivityLog.LogAction($"User input: {input}");
-            string lowerInput = input.ToLower();
-            foreach (var keyword in _responses.Keys)
-            {
-                if (lowerInput.Contains(keyword))
-                {
-                    var responses = _responses[keyword];
-                    return responses[new Random().Next(responses.Count)];
-                }
-            }
-            return "I'm not sure I understand. Can you rephrase?";
+            return _chatSession.InitiateChatStep(input); // Delegate to StartChat
         }
     }
 

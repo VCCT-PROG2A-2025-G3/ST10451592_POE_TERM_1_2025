@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Media;
 using System.Reflection;
 using System.Windows.Forms;
@@ -40,13 +39,13 @@ namespace CybersecurityApp
         {
             try
             {
-                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("CybersecurityApp.Greeting.resources"))
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("CybersecurityApp.greeting.wav"))
                 {
                     if (stream != null)
                     {
                         using (var player = new SoundPlayer(stream))
                         {
-                            player.Play(); // Plays synchronously; use PlaySync() for blocking playback
+                            player.Play();
                         }
                     }
                 }
