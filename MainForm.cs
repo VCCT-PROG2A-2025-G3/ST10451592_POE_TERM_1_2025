@@ -1,45 +1,35 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace CybersecurityApp
 {
     public partial class MainForm : Form
     {
-        private readonly MainViewModel _viewModel;
+        private readonly ChatbotViewModel _viewModel;
 
         public MainForm()
         {
             InitializeComponent();
-            _viewModel = new MainViewModel();
+            _viewModel = new ChatbotViewModel();
             tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
             UpdateView();
         }
 
-        private void TabControl_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateView();
         }
 
         private void UpdateView()
         {
-            switch (tabControl.SelectedTab.Name)
-            {
-                case "tabChat":
-                    tabChat.Controls.Clear();
-                    tabChat.Controls.Add(new ChatControl(_viewModel.ChatViewModel));
-                    break;
-                case "tabTasks":
-                    tabTasks.Controls.Clear();
-                    tabTasks.Controls.Add(new TaskControl(_viewModel.TaskViewModel));
-                    break;
-                case "tabQuiz":
-                    tabQuiz.Controls.Clear();
-                    tabQuiz.Controls.Add(new QuizControl(_viewModel.QuizViewModel));
-                    break;
-                case "tabLog":
-                    tabLog.Controls.Clear();
-                    tabLog.Controls.Add(new LogControl(_viewModel.LogViewModel));
-                    break;
-            }
+            tabChat.Controls.Clear();
+            tabChat.Controls.Add(new ChatControl(_viewModel));
+            tabTasks.Controls.Clear();
+            tabTasks.Controls.Add(new TaskControl(_viewModel.TaskManager));
+            tabQuiz.Controls.Clear();
+            tabQuiz.Controls.Add(new QuizControl(_viewModel.QuizManager));
+            tabLog.Controls.Clear();
+            tabLog.Controls.Add(new LogControl(_viewModel.ActivityLog));
         }
     }
 }

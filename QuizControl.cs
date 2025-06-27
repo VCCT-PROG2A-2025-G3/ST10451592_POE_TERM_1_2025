@@ -5,53 +5,59 @@ namespace CybersecurityApp
 {
     public partial class QuizControl : UserControl
     {
-        private readonly QuizViewModel _viewModel;
+        private readonly QuizManager _quizManager;
+        private int currentQuestionIndex = -1;
 
-        public QuizControl(QuizViewModel viewModel)
+        public QuizControl(QuizManager quizManager)
         {
             InitializeComponent();
-            _viewModel = viewModel;
-            BindControls();
+            _quizManager = quizManager;
             LoadNextQuestion();
-        }
-
-        private void BindControls()
-        {
-            questionLabel.DataBindings.Add("Text", _viewModel, "CurrentQuestionText", false, DataSourceUpdateMode.OnPropertyChanged);
-            feedbackLabel.DataBindings.Add("Text", _viewModel, "Feedback", false, DataSourceUpdateMode.OnPropertyChanged);
-            submitButton.Click += (s, e) => SubmitAnswer();
+            submitButton.Click += SubmitButton_Click;
         }
 
         private void LoadNextQuestion()
         {
-            _viewModel.LoadNextQuestion();
-            if (_viewModel.CurrentOptions != null)
+            currentQuestionIndex = _quizManager.GetNextQuestion();
+            if (currentQuestionIndex >= 0)
             {
-                option1RadioButton.Text = _viewModel.CurrentOptions.Length > 0 ? _viewModel.CurrentOptions[0] : "";
-                option2RadioButton.Text = _viewModel.CurrentOptions.Length > 1 ? _viewModel.CurrentOptions[1] : "";
-                option3RadioButton.Text = _viewModel.CurrentOptions.Length > 2 ? _viewModel.CurrentOptions[2] : "";
-            }
-            option1RadioButton.Checked = false;
-            option2RadioButton.Checked = false;
-            option3RadioButton.Checked = false;
-        }
-
-        private void SubmitAnswer()
-        {
-            string selectedAnswer = "";
-            if (option1RadioButton.Checked) selectedAnswer = option1RadioButton.Text;
-            else if (option2RadioButton.Checked) selectedAnswer = option2RadioButton.Text;
-            else if (option3RadioButton.Checked) selectedAnswer = option3RadioButton.Text;
-
-            _viewModel.SubmitAnswer(selectedAnswer);
-            if (_viewModel.HasMoreQuestions)
-            {
-                LoadNextQuestion();
+                var question = _quizManager.Questions[currentQuestionIndex];
+                questionLabel.Text = question.Text;
+                option1RadioButton.Text = question.Options[0];
+                option2RadioButton.Text = question.Options.Length > 1 ? question.Options[1] : "";
+                option3RadioButton.Text = question.Options.Length > 2 ? question.Options[2] : "";
+                option1RadioButton.Checked = false;
+                option2RadioButton.Checked = false;
+                option3RadioButton.Checked = false;
+                feedbackLabel.Text = "";
             }
             else
             {
-                MessageBox.Show($"Quiz Complete! Score: {_viewModel.Score}/{_viewModel.TotalQuestions}\nDescription: {_viewModel.GetScoreDescription()}");
+                ShowResults();
             }
+        }
+
+        private void SubmitButton_Click(object sender, EventArgs e)
+        {
+            if (currentQuestionIndex >= 0)
+            {
+                string selectedAnswer = option1RadioButton.Checked ? option1RadioButton.Text :
+                    option2RadioButton.Checked ? option2RadioButton.Text :
+                    option3RadioButton.Checked ? option3RadioButton.Text : "";
+                string feedback = _quizManager.SubmitAnswer(currentQuestionIndex, selectedAnswer);
+                feedbackLabel.Text = feedback;
+                if (!_quizManager.HasMoreQuestions)
+                {
+                    ShowResults();
+                }
+            }
+        }
+
+        private void ShowResults()
+        {
+            string result = $"Quiz Complete! Score: {_quizManager.Score}/{_quizManager.TotalQuestions}\n{_quizManager.GetScoreDescription()}";
+            MessageBox.Show(result);
+            LoadNextQuestion();
         }
     }
 }

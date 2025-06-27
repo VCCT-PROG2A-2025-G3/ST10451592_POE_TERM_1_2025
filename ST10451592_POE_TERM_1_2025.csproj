@@ -6,4 +6,21 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="MainForm.resx">
+			<LogicalName>MainForm.resources</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Update="ChatControl.resx">
+			<LogicalName>ChatControl.resources</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Update="TaskControl.resx">
+			<LogicalName>TaskControl.resources</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Update="QuizControl.resx">
+			<LogicalName>QuizControl.resources</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Update="LogControl.resx">
+			<LogicalName>LogControl.resources</LogicalName>
+		</EmbeddedResource>
+	</ItemGroup>
 </Project>

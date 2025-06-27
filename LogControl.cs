@@ -1,23 +1,35 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace CybersecurityApp
 {
     public partial class LogControl : UserControl
     {
-        private readonly ActivityLogViewModel _viewModel;
+        private readonly ActivityLog _activityLog;
 
-        public LogControl(ActivityLogViewModel viewModel)
+        public LogControl(ActivityLog activityLog)
         {
             InitializeComponent();
-            _viewModel = viewModel;
-            BindControls();
+            _activityLog = activityLog;
+            UpdateLogDisplay();
+            showMoreButton.Click += ShowMoreButton_Click;
         }
 
-        private void BindControls()
+        private void UpdateLogDisplay()
         {
-            logListBox.DataSource = _viewModel.LogEntries;
-            logListBox.DisplayMember = "Description";
-            showMoreButton.Click += (s, e) => _viewModel.ShowMore();
+            logListBox.Items.Clear();
+            var recentLogs = _activityLog.GetRecentLogs(10);
+            foreach (var log in recentLogs)
+            {
+                logListBox.Items.Add($"{log.Timestamp:yyyy-MM-dd HH:mm:ss} - {log.Description}");
+            }
+        }
+
+        private void ShowMoreButton_Click(object sender, EventArgs e)
+        {
+            var allLogs = _activityLog.GetAllLogs();
+            string logDetails = string.Join(Environment.NewLine, allLogs.Select(l => $"{l.Timestamp:yyyy-MM-dd HH:mm:ss} - {l.Description}"));
+            MessageBox.Show(logDetails, "Full Activity Log");
         }
     }
 }

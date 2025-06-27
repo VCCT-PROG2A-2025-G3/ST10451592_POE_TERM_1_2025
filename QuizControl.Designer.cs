@@ -32,45 +32,39 @@
             // 
             // questionLabel
             // 
-            this.questionLabel.Location = new System.Drawing.Point(3, 3);
-            this.questionLabel.Name = "questionLabel";
-            this.questionLabel.Size = new System.Drawing.Size(762, 50);
+            this.questionLabel.Location = new System.Drawing.Point(10, 10);
+            this.questionLabel.Size = new System.Drawing.Size(750, 50);
             this.questionLabel.TabIndex = 0;
             // 
             // option1RadioButton
             // 
-            this.option1RadioButton.Location = new System.Drawing.Point(3, 56);
-            this.option1RadioButton.Name = "option1RadioButton";
+            this.option1RadioButton.Location = new System.Drawing.Point(10, 70);
             this.option1RadioButton.Size = new System.Drawing.Size(200, 20);
             this.option1RadioButton.TabIndex = 1;
             // 
             // option2RadioButton
             // 
-            this.option2RadioButton.Location = new System.Drawing.Point(3, 82);
-            this.option2RadioButton.Name = "option2RadioButton";
+            this.option2RadioButton.Location = new System.Drawing.Point(10, 100);
             this.option2RadioButton.Size = new System.Drawing.Size(200, 20);
             this.option2RadioButton.TabIndex = 2;
             // 
             // option3RadioButton
             // 
-            this.option3RadioButton.Location = new System.Drawing.Point(3, 108);
-            this.option3RadioButton.Name = "option3RadioButton";
+            this.option3RadioButton.Location = new System.Drawing.Point(10, 130);
             this.option3RadioButton.Size = new System.Drawing.Size(200, 20);
             this.option3RadioButton.TabIndex = 3;
             // 
             // submitButton
             // 
-            this.submitButton.Location = new System.Drawing.Point(3, 134);
-            this.submitButton.Name = "submitButton";
+            this.submitButton.Location = new System.Drawing.Point(10, 160);
+            this.submitButton.Text = "Submit";
             this.submitButton.Size = new System.Drawing.Size(75, 23);
             this.submitButton.TabIndex = 4;
-            this.submitButton.Text = "Submit";
             // 
             // feedbackLabel
             // 
-            this.feedbackLabel.Location = new System.Drawing.Point(3, 163);
-            this.feedbackLabel.Name = "feedbackLabel";
-            this.feedbackLabel.Size = new System.Drawing.Size(762, 50);
+            this.feedbackLabel.Location = new System.Drawing.Point(10, 190);
+            this.feedbackLabel.Size = new System.Drawing.Size(750, 50);
             this.feedbackLabel.TabIndex = 5;
             // 
             // QuizControl
@@ -84,7 +78,7 @@
             this.Controls.Add(this.option1RadioButton);
             this.Controls.Add(this.questionLabel);
             this.Name = "QuizControl";
-            this.Size = new System.Drawing.Size(768, 548);
+            this.Size = new System.Drawing.Size(770, 250);
             this.ResumeLayout(false);
             this.PerformLayout();
         }
