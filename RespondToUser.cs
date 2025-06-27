@@ -74,11 +74,11 @@ namespace CybersecurityChatbot
         public string ProcessInput(string input)
         {
             string response = ""; // Initialize response
-            input = input?.Trim().ToLower() ?? string.Empty;
-            _memory.AddToHistory(input);
+            input = input?.Trim().ToLower() ?? string.Empty; // Normalize input
+            _memory.AddToHistory(input); // Store input in history
 
-            string sentiment = DetectSentiment(input);
-            bool isSentimentDetected = !string.IsNullOrEmpty(sentiment);
+            string sentiment = DetectSentiment(input); // Detect user sentiment
+            bool isSentimentDetected = !string.IsNullOrEmpty(sentiment); // Check if sentiment is detected
 
             switch (input)
             {
@@ -95,25 +95,25 @@ namespace CybersecurityChatbot
                     break;
 
                 default:
-                    string keyword = _keywordResponses.Keys.FirstOrDefault(k => input.Contains(k));
+                    string keyword = _keywordResponses.Keys.FirstOrDefault(k => input.Contains(k)); // Find matching keyword
                     if (keyword != null)
                     {
                         if (_memory.GetFavoriteTopic() == null)
                         {
-                            _memory.SetFavoriteTopic(keyword);
+                            _memory.SetFavoriteTopic(keyword); // Set favorite topic if new
                             response = $"Great! I'll remember that you're interested in {keyword}. It's a crucial part of staying safe online. ";
                         }
-                        var responses = _keywordResponses[keyword];
-                        response += responses[_random.Next(responses.Count)] + " Want more details?";
+                        var responses = _keywordResponses[keyword]; // Get responses for keyword
+                        response += responses[_random.Next(responses.Count)] + " Want more details?"; // Add random response
                         if (isSentimentDetected)
-                            response = AdjustForSentiment(sentiment, response);
+                            response = AdjustForSentiment(sentiment, response); // Adjust for sentiment
                     }
                     else
                     {
-                        string lastInput = _memory.GetLastInput()?.ToLower().Trim() ?? string.Empty;
+                        string lastInput = _memory.GetLastInput()?.ToLower().Trim() ?? string.Empty; // Get last input
                         if (lastInput.Contains("want more details") && _memory.GetLastKeyword() != null)
                         {
-                            var inputWords = input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                            var inputWords = input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // Split input into words
                             if (inputWords.Any(word => _affirmativeResponses.Contains(word)))
                             {
                                 var responses = _keywordResponses[_memory.GetLastKeyword()];
@@ -140,7 +140,7 @@ namespace CybersecurityChatbot
                     break;
             }
 
-            return response; // Return the response for GUI display
+            return response; // Return the generated response
         }
 
         /// <summary>

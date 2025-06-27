@@ -5,10 +5,10 @@
     /// </summary>
     public class UserMemory
     {
-        private string _userName;
-        private string _favoriteTopic;
-        private string _lastKeyword;
-        private List<string> _history = new List<string>();
+        private string _userName; // Stores the user's name
+        private string _favoriteTopic; // Stores the user's favorite topic
+        private string _lastKeyword; // Stores the last discussed keyword
+        private List<string> _history = new List<string>(); // Stores conversation history
 
         /// <summary>
         /// Sets the user's name.

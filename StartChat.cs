@@ -9,7 +9,7 @@ namespace CybersecurityChatbot
     {
         private readonly RespondToUser _responder; // Handles processing of user input
         private readonly UserMemory _memory; // Stores user data for memory and recall
-        private bool _isInitialized = false;
+        private bool _isInitialized = false; // Tracks if the chat session is initialized
 
         /// <summary>
         /// Initializes a new instance of the StartChat class, setting up the memory and responder.
@@ -27,7 +27,7 @@ namespace CybersecurityChatbot
         {
             if (!_isInitialized)
             {
-                _isInitialized = true;
+                _isInitialized = true; // Sets initialization flag
             }
             // Chat loop handled by GUI event
         }
@@ -41,17 +41,17 @@ namespace CybersecurityChatbot
         {
             if (!_isInitialized)
             {
-                _memory.SetUserName(userInput);
+                _memory.SetUserName(userInput); // Sets the user's name on first input
                 _isInitialized = true;
                 return $"Hello, {userInput}! I'm your Cybersecurity Awareness Bot. Ask me about password security, scams, privacy, phishing, or type 'exit' to quit.";
             }
 
             if (userInput.ToLower() == "exit")
             {
-                return $"Stay safe online, {_memory.GetUserName()}! Goodbye.";
+                return $"Stay safe online, {_memory.GetUserName()}! Goodbye."; // Returns exit message
             }
 
-            return _responder.ProcessInput(userInput);
+            return _responder.ProcessInput(userInput); // Delegates to responder for processing
         }
 
         /// <summary>
@@ -64,6 +64,6 @@ namespace CybersecurityChatbot
         /// Sets the user's name.
         /// </summary>
         /// <param name="name">The user's name.</param>
-        public void SetUserName(string name) => _memory.SetUserName(name);
+        public void SetUserName(string name) => _memory.SetUserName(name); // Sets the user's name
     }
 }

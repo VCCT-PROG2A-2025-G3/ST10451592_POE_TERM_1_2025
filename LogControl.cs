@@ -6,18 +6,19 @@ namespace CybersecurityApp
 {
     public partial class LogControl : UserControl
     {
-        private readonly ActivityLog _activityLog;
+        // User control for displaying activity logs
+        private readonly ActivityLog _activityLog; // Manages log data
 
         public LogControl(ActivityLog activityLog)
         {
-            InitializeComponent();
-            _activityLog = activityLog ?? throw new ArgumentNullException(nameof(activityLog));
-            PopulateLog();
+            InitializeComponent(); // Initializes GUI components from the designer
+            _activityLog = activityLog ?? throw new ArgumentNullException(nameof(activityLog)); // Sets log instance
+            PopulateLog(); // Populates the log display on initialization
         }
 
         private void PopulateLog()
         {
-            // Assuming a ListBox named logListBox (add this in Designer if not present)
+            // Populates the log list with all logged entries, sorted by timestamp
             if (logListBox == null)
             {
                 logListBox = new ListBox
@@ -28,7 +29,6 @@ namespace CybersecurityApp
                 };
                 Controls.Add(logListBox);
             }
-
             logListBox.Items.Clear();
             var logs = _activityLog.GetAllLogs();
             foreach (var log in logs.OrderByDescending(l => l.Timestamp))
