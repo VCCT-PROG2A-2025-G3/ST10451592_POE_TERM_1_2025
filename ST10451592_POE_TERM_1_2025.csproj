@@ -1,41 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<!-- Defines the project as a .NET SDK-based project -->
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<!-- Specifies the project as a Windows executable application -->
 		<TargetFramework>net8.0-windows</TargetFramework>
-		<!-- Targets .NET 8.0 for Windows-specific features -->
 		<UseWindowsForms>true</UseWindowsForms>
-		<!-- Enables Windows Forms support for GUI development -->
 		<Nullable>enable</Nullable>
-		<!-- Enables nullable reference types for better null safety -->
 		<ImplicitUsings>enable</ImplicitUsings>
-		<!-- Automatically includes common using directives -->
 	</PropertyGroup>
+	<ItemGroup>
+	  <None Remove="greeting.wav" />
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Include="greeting.wav" />
+	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Update="MainForm.resx">
 			<LogicalName>MainForm.resources</LogicalName>
-			<!-- Updates the resource name to avoid path conflicts -->
 		</EmbeddedResource>
 		<EmbeddedResource Update="ChatControl.resx">
 			<LogicalName>ChatControl.resources</LogicalName>
-			<!-- Updates the resource name for ChatControl -->
 		</EmbeddedResource>
 		<EmbeddedResource Update="TaskControl.resx">
 			<LogicalName>TaskControl.resources</LogicalName>
-			<!-- Updates the resource name for TaskControl -->
 		</EmbeddedResource>
 		<EmbeddedResource Update="QuizControl.resx">
 			<LogicalName>QuizControl.resources</LogicalName>
-			<!-- Updates the resource name for QuizControl -->
 		</EmbeddedResource>
 		<EmbeddedResource Update="LogControl.resx">
 			<LogicalName>LogControl.resources</LogicalName>
-			<!-- Updates the resource name for LogControl -->
 		</EmbeddedResource>
 		<EmbeddedResource Update="greeting.wav">
 			<LogicalName>Greeting.resources</LogicalName>
-			<!-- Embeds the voice greeting WAV file with a custom logical name -->
 		</EmbeddedResource>
 	</ItemGroup>
 </Project>

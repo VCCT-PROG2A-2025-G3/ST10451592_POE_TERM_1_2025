@@ -9,7 +9,7 @@ namespace CybersecurityChatbot
     {
         private readonly RespondToUser _responder; // Handles processing of user input
         private readonly UserMemory _memory; // Stores user data for memory and recall
-        private bool _isInitialized = false; // Tracks if the chat session is initialized
+        private bool _isInitialized = false;
 
         /// <summary>
         /// Initializes a new instance of the StartChat class, setting up the memory and responder.
@@ -27,7 +27,8 @@ namespace CybersecurityChatbot
         {
             if (!_isInitialized)
             {
-                _isInitialized = true; // Sets initialization flag
+                // Initial setup (moved to GUI)
+                _isInitialized = true;
             }
             // Chat loop handled by GUI event
         }
@@ -41,17 +42,17 @@ namespace CybersecurityChatbot
         {
             if (!_isInitialized)
             {
-                _memory.SetUserName(userInput); // Sets the user's name on first input
+                _memory.SetUserName(userInput);
                 _isInitialized = true;
                 return $"Hello, {userInput}! I'm your Cybersecurity Awareness Bot. Ask me about password security, scams, privacy, phishing, or type 'exit' to quit.";
             }
 
             if (userInput.ToLower() == "exit")
             {
-                return $"Stay safe online, {_memory.GetUserName()}! Goodbye."; // Returns exit message
+                return $"Stay safe online, {_memory.GetUserName()}! Goodbye.";
             }
 
-            return _responder.ProcessInput(userInput); // Delegates to responder for processing
+            return _responder.ProcessInput(userInput); // Delegate to responder
         }
 
         /// <summary>
@@ -64,6 +65,6 @@ namespace CybersecurityChatbot
         /// Sets the user's name.
         /// </summary>
         /// <param name="name">The user's name.</param>
-        public void SetUserName(string name) => _memory.SetUserName(name); // Sets the user's name
+        public void SetUserName(string name) => _memory.SetUserName(name);
     }
 }

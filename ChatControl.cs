@@ -22,7 +22,7 @@ namespace CybersecurityApp
         private void StartChatSession()
         {
             // Displays the initial welcome message in the chat display
-            UpdateChatDisplay("Welcome! I'm your Cybersecurity Awareness Bot. Type your name to begin.");
+            UpdateChatDisplay("Hi! I’m your Cybersecurity Awareness Bot. Please enter your name to begin.");
         }
 
         private void InputTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -32,8 +32,8 @@ namespace CybersecurityApp
             {
                 string userInput = inputTextBox.Text.Trim(); // Gets and trims user input
                 inputTextBox.Clear(); // Clears the input field
+                UpdateChatDisplay($"You: {userInput}"); // Displays user input immediately
                 string response = _chatSession.InitiateChatStep(userInput); // Processes input
-                UpdateChatDisplay($"You: {userInput}"); // Displays user input
                 if (!string.IsNullOrEmpty(response))
                 {
                     UpdateChatDisplay($"Chatbot: {response}"); // Displays chatbot response

@@ -31,32 +31,32 @@ namespace CybersecurityChatbot
                     "password", new List<string>
                     {
                         "Use strong passwords with at least 12 characters, mixing letters, numbers, and symbols. Avoid reusing passwords!",
-                        "A good password is unique and complex. Try a password manager to keep track of them securely.",
-                        "Enable two-factor authentication (2FA) to add an extra layer of security to your accounts."
+                        "Consider a password manager to generate and store unique, complex passwords securely.",
+                        "Enable two-factor authentication (2FA) for an extra layer of account protection."
                     }
                 },
                 {
                     "scam", new List<string>
                     {
-                        "Scams often come as urgent emails or texts. Verify the sender before acting, and never share personal info.",
-                        "Watch for red flags like spelling errors or requests for money. Contact the organization directly if unsure.",
-                        "Report scams to your email provider or local authorities to help stop cybercriminals."
+                        "Be wary of urgent emails or texts asking for personal info—verify the sender first.",
+                        "Look for spelling errors or odd requests as red flags in potential scams.",
+                        "Report suspected scams to your email provider or authorities to prevent further issues."
                     }
                 },
                 {
                     "privacy", new List<string>
                     {
-                        "Review your account privacy settings regularly to limit data sharing and protect your information.",
-                        "Use a VPN on public Wi-Fi to encrypt your connection and keep your data private.",
-                        "Be cautious about what you share online. Adjust social media privacy settings to control who sees your posts."
+                        "Regularly check and tighten your social media privacy settings.",
+                        "Use a VPN on public Wi-Fi to encrypt your internet connection.",
+                        "Think twice before sharing personal details online to protect your privacy."
                     }
                 },
                 {
                     "phishing", new List<string>
                     {
-                        "Be cautious of emails asking for personal information. Scammers often disguise themselves as trusted organizations.",
-                        "Check the sender's email address carefully—phishers often use slight misspellings to trick you.",
-                        "Avoid clicking links in suspicious emails. Hover over them to see the actual URL before clicking."
+                        "Avoid opening emails from unknown senders asking for sensitive data.",
+                        "Hover over links to check their true URL before clicking.",
+                        "Contact the supposed sender directly if an email seems suspicious."
                     }
                 }
             };
@@ -78,61 +78,63 @@ namespace CybersecurityChatbot
             _memory.AddToHistory(input); // Store input in history
 
             string sentiment = DetectSentiment(input); // Detect user sentiment
-            bool isSentimentDetected = !string.IsNullOrEmpty(sentiment); // Check if sentiment is detected
+            bool isSentimentDetected = !string.IsNullOrEmpty(sentiment);
 
             switch (input)
             {
                 case "how are you":
-                    response = $"I'm buzzing with cybersecurity tips, {_memory.GetUserName()}! Want to talk about {_memory.GetFavoriteTopic() ?? "online safety"}?";
+                    response = $"I'm doing great, {_memory.GetUserName()}! Ready to help with cybersecurity tips. Interested in {_memory.GetFavoriteTopic() ?? "online safety"}?";
                     break;
 
                 case "what's your purpose":
-                    response = $"I'm here to help you stay safe online, {_memory.GetUserName()}! Ask about password tips, scams, privacy, phishing tips, or anything cybersecurity-related.";
+                    response = $"I'm here to guide you, {_memory.GetUserName()}, with tips on passwords, scams, privacy, and phishing. What would you like to explore?";
                     break;
 
                 case "what can i ask you about":
-                    response = "You can ask about password security, avoiding scams, protecting your privacy, phishing tips, or safe browsing tips. What's on your mind?";
+                    response = "Feel free to ask about password security, scam prevention, privacy tips, or phishing awareness. What’s on your mind?";
                     break;
 
                 default:
-                    string keyword = _keywordResponses.Keys.FirstOrDefault(k => input.Contains(k)); // Find matching keyword
+                    string keyword = _keywordResponses.Keys.FirstOrDefault(k => input.Contains(k));
                     if (keyword != null)
                     {
                         if (_memory.GetFavoriteTopic() == null)
                         {
-                            _memory.SetFavoriteTopic(keyword); // Set favorite topic if new
-                            response = $"Great! I'll remember that you're interested in {keyword}. It's a crucial part of staying safe online. ";
+                            _memory.SetFavoriteTopic(keyword);
+                            response = $"Awesome, {_memory.GetUserName()}! I’ve noted your interest in {keyword}. Here’s a tip: ";
                         }
-                        var responses = _keywordResponses[keyword]; // Get responses for keyword
-                        response += responses[_random.Next(responses.Count)] + " Want more details?"; // Add random response
+                        var responses = _keywordResponses[keyword];
+                        response += responses[_random.Next(responses.Count)];
+                        _memory.SetLastKeyword(keyword); // Update last keyword
+                        response += " Would you like more info on this?";
                         if (isSentimentDetected)
-                            response = AdjustForSentiment(sentiment, response); // Adjust for sentiment
+                            response = AdjustForSentiment(sentiment, response);
                     }
                     else
                     {
-                        string lastInput = _memory.GetLastInput()?.ToLower().Trim() ?? string.Empty; // Get last input
-                        if (lastInput.Contains("want more details") && _memory.GetLastKeyword() != null)
+                        string lastInput = _memory.GetLastInput()?.ToLower().Trim() ?? string.Empty;
+                        if (lastInput.Contains("would you like more info") && _memory.GetLastKeyword() != null)
                         {
-                            var inputWords = input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // Split input into words
+                            var inputWords = input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                             if (inputWords.Any(word => _affirmativeResponses.Contains(word)))
                             {
                                 var responses = _keywordResponses[_memory.GetLastKeyword()];
-                                response = responses[_random.Next(responses.Count)] + " Anything else you'd like to know?";
+                                response = responses[_random.Next(responses.Count)] + " Anything else you’d like to know?";
                             }
                             else if (inputWords.Any(word => _negativeResponses.Contains(word)))
                             {
-                                response = $"Okay, {_memory.GetUserName()}, let's switch gears. What else would you like to know about? Try asking about passwords, scams, privacy, or phishing tips.";
+                                response = $"Got it, {_memory.GetUserName()}! Let’s try a new topic—how about passwords, scams, privacy, or phishing?";
                             }
                             else
                             {
-                                response = "I didn't quite catch that. Did you want more details? Just say 'yes' or 'no'.";
+                                response = "Hmm, I’m not sure what you mean. Please say 'yes' or 'no' to more info!";
                             }
                             if (isSentimentDetected)
                                 response = AdjustForSentiment(sentiment, response);
                         }
                         else
                         {
-                            response = "Hmm, I didn’t catch that one! Could you rephrase or try asking about passwords, scams, privacy, or phishing tips?";
+                            response = "I didn’t quite get that, {_memory.GetUserName()}. Try asking about passwords, scams, privacy, or phishing!";
                             if (isSentimentDetected)
                                 response = AdjustForSentiment(sentiment, response);
                         }
@@ -140,7 +142,7 @@ namespace CybersecurityChatbot
                     break;
             }
 
-            return response; // Return the generated response
+            return response; // Return response for GUI display
         }
 
         /// <summary>
@@ -169,9 +171,9 @@ namespace CybersecurityChatbot
         {
             return sentiment switch
             {
-                "worried" => $"I understand you're feeling {sentiment}, {_memory.GetUserName()}. Don't worry, let's go through this together. {baseResponse}",
-                "curious" => $"Great to see you're {sentiment}, {_memory.GetUserName()}! Here's some info to fuel your interest: {baseResponse}",
-                "frustrated" => $"I get that you're feeling {sentiment}, {_memory.GetUserName()}. Let's break this down simply: {baseResponse}",
+                "worried" => $"I sense you're {sentiment}, {_memory.GetUserName()}. Let’s tackle this together: {baseResponse}",
+                "curious" => $"Love your {sentiment}, {_memory.GetUserName()}! Here’s more: {baseResponse}",
+                "frustrated" => $"I feel your {sentiment}, {_memory.GetUserName()}. Let’s simplify: {baseResponse}",
                 _ => baseResponse
             };
         }
