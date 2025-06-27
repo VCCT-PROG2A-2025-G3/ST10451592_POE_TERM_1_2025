@@ -5,60 +5,65 @@ namespace CybersecurityApp
 {
     public partial class TaskControl : UserControl
     {
-        // User control for task management interface
-        private readonly TaskManager _taskManager; // Manages task data
+        private readonly TaskManager _taskManager;
 
         public TaskControl(TaskManager taskManager)
         {
-            InitializeComponent(); // Initializes GUI components from the designer
-            _taskManager = taskManager ?? throw new ArgumentNullException(nameof(taskManager)); // Sets task manager instance
-            PopulateTasks(); // Populates the task list on initialization
+            InitializeComponent();
+            _taskManager = taskManager;
+            LoadTasks();
+            addTaskButton.Click += AddTaskButton_Click;
+            deleteTaskButton.Click += DeleteTaskButton_Click;
+            completeTaskButton.Click += CompleteTaskButton_Click;
         }
 
-        private void PopulateTasks()
+        private void LoadTasks()
         {
-            // Updates the task list with current tasks
-            taskListBox.Items.Clear();
+            taskListView.Items.Clear();
             foreach (var task in _taskManager.Tasks)
             {
-                taskListBox.Items.Add($"{task.Title} (Reminder: {task.Reminder?.ToString("g") ?? "None"}) - {(task.IsCompleted ? "Completed" : "Pending")}");
+                var item = new ListViewItem(new[] { task.Title, task.Description, task.Reminder?.ToString() ?? "None", task.IsCompleted ? "Yes" : "No" });
+                taskListView.Items.Add(item);
             }
         }
 
-        private void addTaskButton_Click(object sender, EventArgs e)
+        private void AddTaskButton_Click(object sender, EventArgs e)
         {
-            // Adds a new task based on user input
-            string title = taskTitleTextBox.Text;
-            string description = taskDescriptionTextBox.Text;
-            if (DateTime.TryParse(taskReminderDateTimePicker.Text, out DateTime reminder))
+            if (string.IsNullOrWhiteSpace(titleTextBox.Text) || string.IsNullOrWhiteSpace(descriptionTextBox.Text))
             {
-                _taskManager.AddTask(title, description, reminder);
+                MessageBox.Show("Title and description are required.");
+                return;
             }
-            else
-            {
-                _taskManager.AddTask(title, description, null);
-            }
-            PopulateTasks();
+            _taskManager.AddTask(titleTextBox.Text, descriptionTextBox.Text, reminderDateTimePicker.Value);
+            LoadTasks();
+            ClearInputs();
         }
 
-        private void completeTaskButton_Click(object sender, EventArgs e)
+        private void DeleteTaskButton_Click(object sender, EventArgs e)
         {
-            // Marks the selected task as completed
-            if (taskListBox.SelectedIndex >= 0)
+            if (taskListView.SelectedItems.Count > 0)
             {
-                _taskManager.CompleteTask(taskListBox.SelectedIndex);
-                PopulateTasks();
+                int index = taskListView.SelectedIndices[0];
+                _taskManager.DeleteTask(index);
+                LoadTasks();
             }
         }
 
-        private void deleteTaskButton_Click(object sender, EventArgs e)
+        private void CompleteTaskButton_Click(object sender, EventArgs e)
         {
-            // Deletes the selected task
-            if (taskListBox.SelectedIndex >= 0)
+            if (taskListView.SelectedItems.Count > 0)
             {
-                _taskManager.DeleteTask(taskListBox.SelectedIndex);
-                PopulateTasks();
+                int index = taskListView.SelectedIndices[0];
+                _taskManager.CompleteTask(index);
+                LoadTasks();
             }
+        }
+
+        private void ClearInputs()
+        {
+            titleTextBox.Clear();
+            descriptionTextBox.Clear();
+            reminderDateTimePicker.Value = DateTime.Now;
         }
     }
 }
